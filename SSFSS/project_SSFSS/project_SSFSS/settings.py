@@ -31,28 +31,39 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
-    
-    'accounts',
+
     'registration',
-    # 'app.apps.appConfig',
+    'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
     'knox',
+    'rest_framework_simplejwt',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
         'knox.auth.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
     ]
 }
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -66,14 +77,20 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny',
 ]}
-
+CSRF_COOKIE_NAME = "csrftoken"
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    # Add more allowed origins if needed
+]
+CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
@@ -97,6 +114,14 @@ TEMPLATES = [
         },
     },
 ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'registration.auth_backends.CustomModelBackend'
+    # Add any other custom authentication backends if needed.
+]
+
+
+APPEND_SLASH = False
 
 WSGI_APPLICATION = 'project_SSFSS.wsgi.application'
 
@@ -107,7 +132,7 @@ WSGI_APPLICATION = 'project_SSFSS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'atit12',
+        'NAME': 'atit12341',
         'PASSWORD': '',
         'USER': 'root',
         'HOST': '127.0.0.1',
@@ -158,4 +183,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-# AUTH_USER_MODEL = 'registration.CustomUser'
+AUTH_USER_MODEL = 'registration.User'

@@ -23,10 +23,6 @@ header {
   align-items: center;
 }
 
-/*.nav .nav-btn {
-  display: none;
-}*/
-
 .nav ul {
   padding: 0;
   margin: 0;
@@ -58,3 +54,4 @@ header {
   border-radius: 2px;
   transition: background-color 0.5s;
 }
+
